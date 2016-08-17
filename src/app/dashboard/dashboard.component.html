@@ -1,0 +1,21 @@
+<div>
+  <button (click)="clearState()" id='clearState'>clear stale state</button>
+  <button (click)="getUser()" id='getUser'>get user</button>
+  <button (click)="removeUser()" id='removeUser'>remove user</button>
+</div>
+<div>
+  <button (click)="startSigninMainWindow()" id='startSigninMainWindow'>start signin main window</button>
+  <button (click)="endSigninMainWindow()" id='endSigninMainWindow'>end signin main window</button>
+  <button (click)="startSigninMainWindowDiffCallbackPage()" id='startSigninMainWindowDiffCallbackPage'>start signin main window with different callback page</button>
+</div>
+<div>
+  <button (click)="popupSignin()" id='popupSignin'>signin with popup</button>
+  <button (click)="iframeSignin()" id='iframeSignin'>signin with iframe</button>
+</div>
+<div>
+  <button (click)="startSignoutMainWindow()" id='startSignoutMainWindow'>start signout main window</button>
+  <button (click)="endSignoutMainWindow()" id='endSignoutMainWindow'>end signout main window</button>
+</div>
+<div *ngIf="_user">
+  <pre>{{_user | json}}</pre>
+</div>
