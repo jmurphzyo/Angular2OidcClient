@@ -8,7 +8,11 @@ export class AuthService {
 
 
   constructor() {
-    
+    this.mgr.getUser().then(user => {
+      if (user) {
+        this.userLoadededEvent.emit(user)
+      }
+    });
   }
   clearState() {
     this.mgr.clearStaleState().then(function () {
@@ -60,7 +64,7 @@ export class AuthService {
   }
 
   popupSignin() {
-    this.mgr.signinPopup({ data: 'some data' }).then(function (user) {
+    this.mgr.signinPopup().then(function (user) {
       console.log("signed in", user);
     }).catch(function (err) {
       console.log(err);
@@ -76,7 +80,7 @@ export class AuthService {
   }
 
   startSignoutMainWindow() {
-    this.mgr.signoutRedirect({ data: 'some data' }).then(function (resp) {
+    this.mgr.signoutRedirect().then(function (resp) {
       console.log("signed out", resp);
     }).catch(function (err) {
       console.log(err);
@@ -96,8 +100,8 @@ export class AuthService {
 const settings: any = {
   authority: 'http://localhost:5000/oidc',
   client_id: 'js.tokenmanager',
-  redirect_uri: 'http://localhost:4200/user-manager-sample.html',
-  post_logout_redirect_uri: 'http://localhost:4200/user-manager-sample.html',
+  redirect_uri: 'http://localhost:4200/user-manager-sample-callback.html',
+  post_logout_redirect_uri: 'http://localhost:4200/',
   response_type: 'id_token token',
   scope: 'openid email roles',
 

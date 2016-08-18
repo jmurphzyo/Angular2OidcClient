@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
     this.authService.iframeSignin();
   }
   startSignoutMainWindow() {
-    this.authService.startSigninMainWindow();
+    this.authService.startSignoutMainWindow();
   }
   endSignoutMainWindow() {
     this.authService.endSigninMainWindow();
