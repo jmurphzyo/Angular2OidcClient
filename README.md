@@ -3,8 +3,11 @@
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.11-webpack.2.
 
 ## Setup
-1.  clone the repo
-2.  navigate to the projects root dir.
+1.  Clone the repo
+```bash
+git clone https://github.com/jmurphzyo/Angular2OidcClient.git
+```
+2.  Go to the projects root dir.
 ```bash
 cd Angular2OidcClient
 ```

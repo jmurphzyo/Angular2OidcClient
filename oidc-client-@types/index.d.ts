@@ -131,14 +131,14 @@ declare namespace Oidc {
         load(user: User);
         unload();
 
-        addUserLoaded(callback: (ev: null) => void);
-        removeUserLoaded(callback: (ev: null) => void);
+        addUserLoaded(callback: (ev: void) => void);
+        removeUserLoaded(callback: (ev: void) => void);
 
-        addUserUnloaded(callback: (ev: null) => void);
-        removeUserUnloaded(callback: (ev: null) => void);
+        addUserUnloaded(callback: (ev: void) => void);
+        removeUserUnloaded(callback: (ev: void) => void);
 
-        addSilentRenewError(callback: (ev: null) => void);
-        removeSilentRenewError(callback: (ev: null) => void);
+        addSilentRenewError(callback: (ev: void) => void);
+        removeSilentRenewError(callback: (ev: void) => void);
     }
     interface UserManagerCtor extends OidcClientCtor {
         popup_redirect_uri?: string;
