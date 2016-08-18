@@ -22,8 +22,14 @@ I added an extra folder to the project `oidc-client-@types` copy the contents of
         "typescript.tsdk": "./node_modules/typescript/lib"
     }
     ```
-5.  Once these steps are complete make sure the settings inside `src/app/shared/services/auth.service.ts#L165` are set to your IdentityServer settings.
-6.  Run `ng b` followed by `ng s` and everything should be working. I added a brief section at the bottom of the auth service to show how to make authenicatied request using the Angular 2 request pipe line.
+
+Once these steps are complete make sure the settings inside `src/app/shared/services/auth.service.ts#L165` are set to your IdentityServer settings.
+
+Run `ng b` followed by `ng s`. Navigate to `http://localhost:4200/`.
+
+I added a brief section at the bottom of the auth service to show how to make authenicatied request using the Angular 2 request pipe line.
+
+You can also add the identity server settings inside the enviorment area so if you run a production build the urls would change over autoimatically.
 
 ## Additonal Info
 I also added a protected route to show how you can use this client to protect routes and redirect to unauthorized pages.
