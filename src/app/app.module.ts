@@ -5,16 +5,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 
-import { routing } from './app.routing';
+import { routing, authProviders } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ProtectedComponent } from './protected/protected.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    UnauthorizedComponent,
+    ProtectedComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,7 @@ import { AuthService } from './shared/services/auth.service';
     routing
   ],
   providers: [
-    AuthService
+    authProviders
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

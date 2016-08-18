@@ -8,13 +8,14 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class DashboardComponent implements OnInit {
   _user: any;
+  loadedUserSub: any;
 
   constructor(private authService: AuthService) {
 
   }
 
   ngOnInit() {
-    this.authService.userLoadededEvent
+    this.loadedUserSub = this.authService.userLoadededEvent
       .subscribe(user => {
         this._user = user;
       });
@@ -34,19 +35,16 @@ export class DashboardComponent implements OnInit {
   endSigninMainWindow() {
     this.authService.endSigninMainWindow();
   }
-  startSigninMainWindowDiffCallbackPage() {
-    this.authService.startSigninMainWindowDiffCallbackPage();
-  }
-  popupSignin() {
-    this.authService.popupSignin();
-  }
-  iframeSignin() {
-    this.authService.iframeSignin();
-  }
   startSignoutMainWindow() {
     this.authService.startSignoutMainWindow();
   }
   endSignoutMainWindow() {
     this.authService.endSigninMainWindow();
+  }
+
+  ngOnDestroy(){
+    if(this.loadedUserSub.unsubscribe()){
+      this.loadedUserSub.unsubscribe();
+    }
   }
 }

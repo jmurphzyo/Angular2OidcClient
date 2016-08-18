@@ -1,17 +1,38 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+
 import { UserManager } from 'oidc-client';
+import { environment } from '../../';
 
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(settings);
   userLoadededEvent: EventEmitter<any> = new EventEmitter<any>();
+  loggedIn: boolean = false;
+
+  authHeaders: Headers;
 
 
-  constructor() {
-    this.mgr.getUser().then(user => {
-      if (user) {
-        this.userLoadededEvent.emit(user)
+  constructor(private http: Http) {
+    this.mgr.getUser()
+      .then((user) => {
+        if (user) {
+          this.loggedIn = true;
+          this.userLoadededEvent.emit(user);
+        }
+        else {
+          this.loggedIn = false;
+        }
+      })
+      .catch((err) => {
+        this.loggedIn = false;
+      });
+    this.mgr.events.addUserUnloaded((e) => {
+      if (!environment.production) {
+        console.log("user unloaded");
       }
+      this.loggedIn = false;
     });
   }
   clearState() {
@@ -23,7 +44,7 @@ export class AuthService {
   }
 
   getUser() {
-    this.mgr.getUser().then(function (user) {
+    this.mgr.getUser().then((user) => {
       console.log("got user", user);
       this.userLoadededEvent.emit(user);
     }).catch(function (err) {
@@ -32,7 +53,8 @@ export class AuthService {
   }
 
   removeUser() {
-    this.mgr.removeUser().then(function () {
+    this.mgr.removeUser().then(() => {
+      this.userLoadededEvent.emit(null);
       console.log("user removed");
     }).catch(function (err) {
       console.log(err);
@@ -55,33 +77,13 @@ export class AuthService {
     });
   }
 
-  startSigninMainWindowDiffCallbackPage() {
-    this.mgr.signinRedirect({ data: 'some data', redirect_uri: 'http://localhost:5000/user-manager-sample-callback.html' }).then(function () {
-      console.log("signinRedirect done");
-    }).catch(function (err) {
-      console.log(err);
-    });
-  }
-
-  popupSignin() {
-    this.mgr.signinPopup().then(function (user) {
-      console.log("signed in", user);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  }
-
-  iframeSignin() {
-    this.mgr.signinSilent({ data: 'some data' }).then(function (user) {
-      console.log("signed in", user);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  }
-
   startSignoutMainWindow() {
     this.mgr.signoutRedirect().then(function (resp) {
       console.log("signed out", resp);
+      setTimeout(5000, () => {
+        console.log("testing to see if fired...");
+
+      })
     }).catch(function (err) {
       console.log(err);
     });
@@ -94,20 +96,81 @@ export class AuthService {
       console.log(err);
     });
   };
+  /**
+   * Example of how you can make auth request using angulars http methods.
+   */
+  AuthGet(url: string, options?: RequestOptions): Observable<Response> {
+
+    if (options) {
+      options = this._setRequestOptions(options);
+    }
+    else {
+      options = this._setRequestOptions();
+    }
+    return this.http.get(url, options);
+  }
+  AuthPut(url: string, data: any, options?: RequestOptions): Observable<Response> {
+
+    let body = JSON.stringify(data);
+
+    if (options) {
+      options = this._setRequestOptions(options);
+    }
+    else {
+      options = this._setRequestOptions();
+    }
+    return this.http.put(url, body, options);
+  }
+  AuthDelete(url: string, options?: RequestOptions): Observable<Response> {
+
+    if (options) {
+      options = this._setRequestOptions(options);
+    }
+    else {
+      options = this._setRequestOptions();
+    }
+    return this.http.delete(url, options);
+  }
+  AuthPost(url: string, data: any, options?: RequestOptions): Observable<Response> {
+
+    let body = JSON.stringify(data);
+
+    if (options) {
+      options = this._setRequestOptions(options);
+    }
+    else {
+      options = this._setRequestOptions();
+    }
+    return this.http.post(url, body, options);
+  }
+
+
+  private _setAuthHeaders(user: any) {
+    this.authHeaders = new Headers();
+    this.authHeaders.append('Authorization', user.token_type + " " + user.access_token);
+  }
+  private _setRequestOptions(options?: RequestOptions) {
+    this.authHeaders.append('Content-Type', 'application/json');
+    if (options) {
+      options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
+    }
+    else {
+      options = new RequestOptions({ headers: this.authHeaders, body: "" });
+    }
+    return options;
+  }
 
 }
 
 const settings: any = {
   authority: 'http://localhost:5000/oidc',
   client_id: 'js.tokenmanager',
-  redirect_uri: 'http://localhost:4200/user-manager-sample-callback.html',
+  redirect_uri: 'http://localhost:4200/auth.html',
   post_logout_redirect_uri: 'http://localhost:4200/',
   response_type: 'id_token token',
   scope: 'openid email roles',
 
-  popup_redirect_uri: 'http://localhost:4200/user-manager-sample-popup.html',
-
-  silent_redirect_uri: 'http://localhost:4200/user-manager-sample-silent.html',
+  silent_redirect_uri: 'http://localhost:4200',
   automaticSilentRenew: true,
   //silentRequestTimeout:10000,
 

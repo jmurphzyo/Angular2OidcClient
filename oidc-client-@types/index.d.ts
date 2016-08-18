@@ -17,11 +17,11 @@ declare namespace Oidc {
 
         unload();
 
-        addAccessTokenExpiring(callback:(ev) => void);
-        removeAccessTokenExpiring(callback:(ev) => void);
+        addAccessTokenExpiring(callback: (ev) => void);
+        removeAccessTokenExpiring(callback: (ev) => void);
 
-        addAccessTokenExpired(callback:(ev) => void);
-        removeAccessTokenExpired(callback:(ev) => void);
+        addAccessTokenExpired(callback: (ev) => void);
+        removeAccessTokenExpired(callback: (ev) => void);
     }
     interface InMemoryWebStorage {
         getItem(key: string);
@@ -123,20 +123,22 @@ declare namespace Oidc {
         signoutRedirect(args?: any): Promise<any>;
         signoutRedirectCallback(url?: string): Promise<any>;
 
+        querySessionStatus(args?: {}): Promise<any>;
+
         events: UserManagerEvents;
     }
     interface UserManagerEvents extends AccessTokenEvents {
         load(user: User);
         unload();
 
-        addUserLoaded(callback:(ev:null) => void);
-        removeUserLoaded(callback:(ev:null) => void);
+        addUserLoaded(callback: (ev: null) => void);
+        removeUserLoaded(callback: (ev: null) => void);
 
-        addUserUnloaded(callback:(ev:null) => void);
-        removeUserUnloaded(callback:(ev:null) => void);
+        addUserUnloaded(callback: (ev: null) => void);
+        removeUserUnloaded(callback: (ev: null) => void);
 
-        addSilentRenewError(callback:(ev:null) => void);
-        removeSilentRenewError(callback:(ev:null) => void);
+        addSilentRenewError(callback: (ev: null) => void);
+        removeSilentRenewError(callback: (ev: null) => void);
     }
     interface UserManagerCtor extends OidcClientCtor {
         popup_redirect_uri?: string;
