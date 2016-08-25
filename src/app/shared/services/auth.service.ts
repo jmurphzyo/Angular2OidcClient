@@ -2,13 +2,14 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { UserManager } from 'oidc-client';
+import { UserManager, Log, MetadataService, User } from 'oidc-client';
 import { environment } from '../../';
 
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(settings);
-  userLoadededEvent: EventEmitter<any> = new EventEmitter<any>();
+  userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
+  currentUser:User;
   loggedIn: boolean = false;
 
   authHeaders: Headers;
@@ -19,6 +20,7 @@ export class AuthService {
       .then((user) => {
         if (user) {
           this.loggedIn = true;
+          this.currentUser = user;
           this.userLoadededEvent.emit(user);
         }
         else {
