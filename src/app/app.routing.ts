@@ -1,7 +1,7 @@
-import { Routes, provideRouter, RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { UnauthorizedComponent } from './unauthorized/';
 import { ProtectedComponent } from './protected/protected.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthGuardService } from './shared/services/auth-guard.service';

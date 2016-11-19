@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -9,15 +8,19 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['unauthorized.component.scss']
 })
 export class UnauthorizedComponent implements OnInit {
+  //, private location:Location
+  constructor(private location:Location, private service: AuthService) {
 
-  constructor(private authService: AuthService, private location:Location) { }
+  }
 
   ngOnInit() {
   }
-  Login() {
-    this.authService.startSigninMainWindow();
+
+  login() {
+    this.service.startSigninMainWindow();
   }
-  goback(){
-    this.location.back();
+
+  goback() {
+    // this.location.back();
   }
 }

@@ -1,3 +1,5 @@
+import { browser, element, by } from 'protractor';
+
 export class Angular2OidcClientPage {
   navigateTo() {
     return browser.get('/');
