@@ -43,7 +43,7 @@ I also added a protected route to show how you can use this client to protect ro
 ##  Side Notes
 This project was created for demonstration purposes to show how to use the oidc-client that was created by the IdentityModel team. If you have any questions feel free to add it to the issues section. Also if there is something you would like to add to the repo submit a pull request and if it doesn't break anything I will accept it.
     
->>>>>>> 5fa6e6ba7d40ac9020c69de5e1f1ebd7ddd94d8b
+
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
