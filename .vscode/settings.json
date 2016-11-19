@@ -1,1 +1,7 @@
 // Place your settings in this file to overwrite default and user settings.
+<<<<<<< HEAD
+=======
+{
+    "typescript.tsdk": "/node_modules/typescript/lib"
+}
+>>>>>>> 5fa6e6ba7d40ac9020c69de5e1f1ebd7ddd94d8b

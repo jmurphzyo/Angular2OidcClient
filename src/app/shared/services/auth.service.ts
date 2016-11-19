@@ -2,13 +2,14 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { UserManager } from 'oidc-client';
+import { UserManager, Log, MetadataService, User } from 'oidc-client';
 import { environment } from '../../';
 
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(settings);
-  userLoadededEvent: EventEmitter<any> = new EventEmitter<any>();
+  userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
+  currentUser:User;
   loggedIn: boolean = false;
 
   authHeaders: Headers;
@@ -19,6 +20,7 @@ export class AuthService {
       .then((user) => {
         if (user) {
           this.loggedIn = true;
+          this.currentUser = user;
           this.userLoadededEvent.emit(user);
         }
         else {
@@ -97,6 +99,7 @@ export class AuthService {
   };
   /**
    * Example of how you can make auth request using angulars http methods.
+   * @param options if options are not supplied the default content type is application/json
    */
   AuthGet(url: string, options?: RequestOptions): Observable<Response> {
 
@@ -108,6 +111,9 @@ export class AuthService {
     }
     return this.http.get(url, options);
   }
+  /**
+   * @param options if options are not supplied the default content type is application/json
+   */
   AuthPut(url: string, data: any, options?: RequestOptions): Observable<Response> {
 
     let body = JSON.stringify(data);
@@ -120,6 +126,9 @@ export class AuthService {
     }
     return this.http.put(url, body, options);
   }
+  /**
+   * @param options if options are not supplied the default content type is application/json
+   */
   AuthDelete(url: string, options?: RequestOptions): Observable<Response> {
 
     if (options) {
@@ -130,6 +139,9 @@ export class AuthService {
     }
     return this.http.delete(url, options);
   }
+  /**
+   * @param options if options are not supplied the default content type is application/json
+   */
   AuthPost(url: string, data: any, options?: RequestOptions): Observable<Response> {
 
     let body = JSON.stringify(data);
@@ -147,15 +159,17 @@ export class AuthService {
   private _setAuthHeaders(user: any) {
     this.authHeaders = new Headers();
     this.authHeaders.append('Authorization', user.token_type + " " + user.access_token);
+    this.authHeaders.append('Content-Type', 'application/json');
   }
   private _setRequestOptions(options?: RequestOptions) {
-    this.authHeaders.append('Content-Type', 'application/json');
+    
     if (options) {
       options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
     }
     else {
       options = new RequestOptions({ headers: this.authHeaders, body: "" });
     }
+
     return options;
   }
 
