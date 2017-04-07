@@ -162,7 +162,7 @@ export class AuthService {
     this.authHeaders.append('Content-Type', 'application/json');
   }
   private _setRequestOptions(options?: RequestOptions) {
-    
+
     if (options) {
       options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
     }
@@ -176,12 +176,12 @@ export class AuthService {
 }
 
 const settings: any = {
-  authority: 'http://localhost:5000/oidc',
-  client_id: 'js.tokenmanager',
-  redirect_uri: 'http://localhost:4200/auth.html',
+  authority: 'https://lablws02a.ile.montreal.qc.ca/oxauth/',
+  client_id: '@!0E7A.27EA.7A1A.66BC!0001!EF33.651E!0008!3B50.C638.0B16.B3CF',
+  redirect_uri: 'http://localhost:4200/auth',
   post_logout_redirect_uri: 'http://localhost:4200/',
   response_type: 'id_token token',
-  scope: 'openid email roles',
+  scope: 'profile email user_name uma_authorization openid',
 
   silent_redirect_uri: 'http://localhost:4200',
   automaticSilentRenew: true,

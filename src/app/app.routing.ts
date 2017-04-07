@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard';
+import { AuthComponent } from './auth';
 import { UnauthorizedComponent } from './unauthorized/';
 import { ProtectedComponent } from './protected/protected.component';
 import { AuthService } from './shared/services/auth.service';
@@ -15,6 +16,10 @@ const appRoutes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'auth',
+        component: AuthComponent
     },
     {
         path: 'unauthorized',
