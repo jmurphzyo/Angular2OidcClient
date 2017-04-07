@@ -1,10 +1,10 @@
-import { Angular2OidcClientPage } from './app.po';
+import { AngularCliProjectPage } from './app.po';
 
-describe('angular2-oidc-client App', function() {
-  let page: Angular2OidcClientPage;
+describe('angular-cli-project App', () => {
+  let page: AngularCliProjectPage;
 
   beforeEach(() => {
-    page = new Angular2OidcClientPage();
+    page = new AngularCliProjectPage();
   });
 
   it('should display message saying app works', () => {

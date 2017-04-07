@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { routing, authProviders } from './app.routing';
 
 import { AppComponent } from './app.component';
+import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
@@ -20,13 +21,15 @@ import { LoginComponent } from './login/login.component';
     UnauthorizedComponent,
     DashboardComponent,
     ProtectedComponent,
-    LoginComponent
+    LoginComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     CommonModule,
+    RouterModule,
     routing
   ],
   providers: [
@@ -36,11 +39,11 @@ import { LoginComponent } from './login/login.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
   constructor(private _appRef: ApplicationRef) { }
 
   ngDoBootstrap() {
-    
+
     // document.addEventListener('WebComponentsReady', () => {
       this._appRef.bootstrap(AppComponent);
     // });
