@@ -4,8 +4,8 @@ import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-unauthorized',
-  templateUrl: 'unauthorized.component.html',
-  styleUrls: ['unauthorized.component.scss']
+  templateUrl: './unauthorized.component.html',
+  styleUrls: ['./unauthorized.component.scss']
 })
 export class UnauthorizedComponent implements OnInit {
   //, private location:Location
