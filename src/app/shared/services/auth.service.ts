@@ -13,13 +13,15 @@ const settings: any = {
   response_type: 'id_token token',
   scope: 'openid email roles',
 
-  silent_redirect_uri: 'http://localhost:4200',
+  silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent-renew.html",
   automaticSilentRenew: true,
+  accessTokenExpiringNotificationTime: 4,
   // silentRequestTimeout:10000,
 
   filterProtocolClaims: true,
   loadUserInfo: true
 };
+
 
 @Injectable()
 export class AuthService {
@@ -32,6 +34,7 @@ export class AuthService {
 
 
   constructor(private http: Http) {
+
     this.mgr.getUser()
       .then((user) => {
         if (user) {
@@ -46,6 +49,13 @@ export class AuthService {
       .catch((err) => {
         this.loggedIn = false;
       });
+
+    this.mgr.events.addUserLoaded((user) => {
+      this.currentUser = user;
+      console.log("authService addUserLoaded", user);
+
+    });
+
     this.mgr.events.addUserUnloaded((e) => {
       if (!environment.production) {
         console.log('user unloaded');
@@ -63,6 +73,7 @@ export class AuthService {
 
   getUser() {
     this.mgr.getUser().then((user) => {
+      this.currentUser = user;
       console.log('got user', user);
       this.userLoadededEvent.emit(user);
     }).catch(function (err) {
