@@ -13,7 +13,7 @@ const settings: any = {
   response_type: 'id_token token',
   scope: 'openid email roles',
 
-  silent_redirect_uri: window.location.protocol + '//' + window.location.host + '/silent-renew.html',
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
   automaticSilentRenew: true,
   accessTokenExpiringNotificationTime: 4,
   // silentRequestTimeout:10000,
