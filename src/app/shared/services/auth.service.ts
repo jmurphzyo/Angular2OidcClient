@@ -5,6 +5,22 @@ import { Observable } from 'rxjs/Rx';
 import { UserManager, Log, MetadataService, User } from 'oidc-client';
 import { environment } from '../../';
 
+const settings: any = {
+  authority: 'http://localhost:5000/oidc',
+  client_id: 'js.tokenmanager',
+  redirect_uri: 'http://localhost:4200/auth.html',
+  post_logout_redirect_uri: 'http://localhost:4200/',
+  response_type: 'id_token token',
+  scope: 'openid email roles',
+
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
+  automaticSilentRenew: true,
+  // silentRequestTimeout:10000,
+
+  filterProtocolClaims: true,
+  loadUserInfo: true
+};
+
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(settings);
@@ -122,8 +138,7 @@ export class AuthService {
 
     if (options) {
       options = this._setRequestOptions(options);
-    }
-    else {
+    } else {
       options = this._setRequestOptions();
     }
     return this.http.get(url, options);
@@ -137,8 +152,7 @@ export class AuthService {
 
     if (options) {
       options = this._setRequestOptions(options);
-    }
-    else {
+    } else {
       options = this._setRequestOptions();
     }
     return this.http.put(url, body, options);
@@ -150,8 +164,7 @@ export class AuthService {
 
     if (options) {
       options = this._setRequestOptions(options);
-    }
-    else {
+    } else {
       options = this._setRequestOptions();
     }
     return this.http.delete(url, options);
@@ -165,8 +178,7 @@ export class AuthService {
 
     if (options) {
       options = this._setRequestOptions(options);
-    }
-    else {
+    } else {
       options = this._setRequestOptions();
     }
     return this.http.post(url, body, options);
@@ -178,12 +190,11 @@ export class AuthService {
     this.authHeaders.append('Authorization', user.token_type + ' ' + user.access_token);
     this.authHeaders.append('Content-Type', 'application/json');
   }
-  private _setRequestOptions(options?: RequestOptions) {
+  public _setRequestOptions(options?: RequestOptions) {
 
     if (options) {
       options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
-    }
-    else {
+    } else {
       options = new RequestOptions({ headers: this.authHeaders, body: '' });
     }
 
@@ -191,19 +202,3 @@ export class AuthService {
   }
 
 }
-
-const settings: any = {
-  authority: 'http://localhost:5000/oidc',
-  client_id: 'js.tokenmanager',
-  redirect_uri: 'http://localhost:4200/auth.html',
-  post_logout_redirect_uri: 'http://localhost:4200/',
-  response_type: 'id_token token',
-  scope: 'openid email roles',
-
-  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
-  automaticSilentRenew: true,
-  // silentRequestTimeout:10000,
-
-  filterProtocolClaims: true,
-  loadUserInfo: true
-};

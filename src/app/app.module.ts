@@ -13,6 +13,7 @@ import { AuthService } from './shared/services/auth.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ProtectedComponent } from './protected/protected.component';
 import { LoginComponent } from './login/login.component';
+import { AuthHttpService } from './shared/services/auth-http.service';
 
 @NgModule({
   declarations: [
@@ -30,19 +31,20 @@ import { LoginComponent } from './login/login.component';
     routing
   ],
   providers: [
-    authProviders
+    AuthHttpService,
+    ...authProviders
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
   constructor(private _appRef: ApplicationRef) { }
 
   ngDoBootstrap() {
-    
+
     // document.addEventListener('WebComponentsReady', () => {
-      this._appRef.bootstrap(AppComponent);
+    this._appRef.bootstrap(AppComponent);
     // });
   }
- }
+}
