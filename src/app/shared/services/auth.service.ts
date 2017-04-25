@@ -13,7 +13,7 @@ const settings: any = {
   response_type: 'id_token token',
   scope: 'openid email roles',
 
-  silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent-renew.html",
+  silent_redirect_uri: window.location.protocol + '//' + window.location.host + '/silent-renew.html',
   automaticSilentRenew: true,
   accessTokenExpiringNotificationTime: 4,
   // silentRequestTimeout:10000,
@@ -52,7 +52,9 @@ export class AuthService {
 
     this.mgr.events.addUserLoaded((user) => {
       this.currentUser = user;
-      console.log("authService addUserLoaded", user);
+      if (!environment.production) {
+        console.log('authService addUserLoaded', user);
+      }
 
     });
 
@@ -62,7 +64,19 @@ export class AuthService {
       }
       this.loggedIn = false;
     });
+
   }
+
+  isLoggedInObs(): Observable<boolean> {
+    return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
   clearState() {
     this.mgr.clearStaleState().then(function () {
       console.log('clearStateState success');

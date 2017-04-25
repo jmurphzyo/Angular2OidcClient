@@ -8,13 +8,10 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['protected.component.scss']
 })
 export class ProtectedComponent implements OnInit {
-
-  baseUrl: string = 'http://localhost:61138';
-  values: string;
   constructor(private location: Location, private authService: AuthService) { }
 
   ngOnInit() {
-  }  
+  }
 
   goback() {
     this.location.back();
