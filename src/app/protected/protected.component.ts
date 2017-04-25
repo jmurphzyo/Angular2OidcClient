@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-protected',
@@ -8,11 +9,21 @@ import { Location } from '@angular/common';
 })
 export class ProtectedComponent implements OnInit {
 
-  constructor(private location:Location) { }
+  baseUrl: string = 'http://localhost:61138';
+  values: string;
+  constructor(private location: Location, private authService: AuthService) { }
 
   ngOnInit() {
   }
-  goback(){
+
+  getSecureValue() {
+    this.authService.AuthGet(this.baseUrl + '/values').subscribe((response => {
+      this.values = response.json();
+    }));
+
+  }
+
+  goback() {
     this.location.back();
   }
 
