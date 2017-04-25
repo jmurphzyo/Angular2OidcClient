@@ -9,8 +9,8 @@ import { environment } from '../../';
 export class AuthService {
   mgr: UserManager = new UserManager(settings);
   userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
-  currentUser:User;
-  loggedIn: boolean = false;
+  currentUser: User;
+  loggedIn = false;
 
   authHeaders: Headers;
 
@@ -22,42 +22,59 @@ export class AuthService {
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
-        }
-        else {
+        } else {
           this.loggedIn = false;
         }
       })
       .catch((err) => {
         this.loggedIn = false;
       });
+
+    this.mgr.events.addUserLoaded(user => {
+      this.currentUser = user;
+      if (!environment.production) {
+        console.log('authService addUserLoaded', user);
+      }
+    });
+
     this.mgr.events.addUserUnloaded((e) => {
       if (!environment.production) {
-        console.log("user unloaded");
+        console.log('user unloaded');
       }
       this.loggedIn = false;
     });
   }
   clearState() {
     this.mgr.clearStaleState().then(function () {
-      console.log("clearStateState success");
+      console.log('clearStateState success');
     }).catch(function (e) {
-      console.log("clearStateState error", e.message);
+      console.log('clearStateState error', e.message);
     });
   }
 
   getUser() {
     this.mgr.getUser().then((user) => {
-      console.log("got user", user);
+      console.log('got user', user);
+      this.currentUser = user;
       this.userLoadededEvent.emit(user);
     }).catch(function (err) {
       console.log(err);
+    });
+  }
+  isLoggedInObs(): Observable<boolean> {
+    return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
     });
   }
 
   removeUser() {
     this.mgr.removeUser().then(() => {
       this.userLoadededEvent.emit(null);
-      console.log("user removed");
+      console.log('user removed');
     }).catch(function (err) {
       console.log(err);
     });
@@ -65,14 +82,14 @@ export class AuthService {
 
   startSigninMainWindow() {
     this.mgr.signinRedirect({ data: 'some data' }).then(function () {
-      console.log("signinRedirect done");
+      console.log('signinRedirect done');
     }).catch(function (err) {
       console.log(err);
     });
   }
   endSigninMainWindow() {
     this.mgr.signinRedirectCallback().then(function (user) {
-      console.log("signed in", user);
+      console.log('signed in', user);
     }).catch(function (err) {
       console.log(err);
     });
@@ -80,11 +97,11 @@ export class AuthService {
 
   startSignoutMainWindow() {
     this.mgr.signoutRedirect().then(function (resp) {
-      console.log("signed out", resp);
+      console.log('signed out', resp);
       setTimeout(5000, () => {
-        console.log("testing to see if fired...");
+        console.log('testing to see if fired...');
 
-      })
+      });
     }).catch(function (err) {
       console.log(err);
     });
@@ -92,7 +109,7 @@ export class AuthService {
 
   endSignoutMainWindow() {
     this.mgr.signoutRedirectCallback().then(function (resp) {
-      console.log("signed out", resp);
+      console.log('signed out', resp);
     }).catch(function (err) {
       console.log(err);
     });
@@ -116,7 +133,7 @@ export class AuthService {
    */
   AuthPut(url: string, data: any, options?: RequestOptions): Observable<Response> {
 
-    let body = JSON.stringify(data);
+    const body = JSON.stringify(data);
 
     if (options) {
       options = this._setRequestOptions(options);
@@ -144,7 +161,7 @@ export class AuthService {
    */
   AuthPost(url: string, data: any, options?: RequestOptions): Observable<Response> {
 
-    let body = JSON.stringify(data);
+    const body = JSON.stringify(data);
 
     if (options) {
       options = this._setRequestOptions(options);
@@ -158,16 +175,16 @@ export class AuthService {
 
   private _setAuthHeaders(user: any) {
     this.authHeaders = new Headers();
-    this.authHeaders.append('Authorization', user.token_type + " " + user.access_token);
+    this.authHeaders.append('Authorization', user.token_type + ' ' + user.access_token);
     this.authHeaders.append('Content-Type', 'application/json');
   }
   private _setRequestOptions(options?: RequestOptions) {
-    
+
     if (options) {
       options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
     }
     else {
-      options = new RequestOptions({ headers: this.authHeaders, body: "" });
+      options = new RequestOptions({ headers: this.authHeaders, body: '' });
     }
 
     return options;
@@ -183,9 +200,9 @@ const settings: any = {
   response_type: 'id_token token',
   scope: 'openid email roles',
 
-  silent_redirect_uri: 'http://localhost:4200',
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
   automaticSilentRenew: true,
-  //silentRequestTimeout:10000,
+  // silentRequestTimeout:10000,
 
   filterProtocolClaims: true,
   loadUserInfo: true

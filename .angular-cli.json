@@ -11,7 +11,8 @@
         {"glob":"**/*.js", "input":"../node_modules/oidc-client/dist/","output":"./"},
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
-        { "glob": "auth.html", "input": "./", "output": "./" }
+        { "glob": "auth.html", "input": "./", "output": "./" },
+        { "glob": "silent-renew.html", "input": "./", "output": "./" }
         
       ],
       "index": "index.html",
