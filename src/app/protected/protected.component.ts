@@ -14,14 +14,7 @@ export class ProtectedComponent implements OnInit {
   constructor(private location: Location, private authService: AuthService) { }
 
   ngOnInit() {
-  }
-
-  getSecureValue() {
-    this.authService.AuthGet(this.baseUrl + '/values').subscribe((response => {
-      this.values = response.json();
-    }));
-
-  }
+  }  
 
   goback() {
     this.location.back();
