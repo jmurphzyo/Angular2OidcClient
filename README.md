@@ -1,9 +1,9 @@
 # Angular2OidcClient
-## Angular 4.0.1 version is here [ng4](https://github.com/jmurphzyo/Angular2OidcClient/tree/ng4)
+## Angular 4 version is here [ng v4](https://github.com/jmurphzyo/Angular2OidcClient/tree/ng4)
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.20-4.
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0.
 =======
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.11-webpack.2.
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0.
 
 ## Setup
 Clone the repo
