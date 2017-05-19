@@ -8,21 +8,6 @@
     <h1 id="waiting">Waiting...</h1>
     <div id="error"></div>
     <script src="oidc-client.min.js"></script>
-    <script>
-        Log.logger = console;
-        new UserManager().signinRedirectCallback().then(function (user) {
-            if (user == null) {
-                document.getElementById("waiting").style.display = "none";
-                document.getElementById("error").innerText = "No sign-in request pending.";
-            }
-            else {
-                window.location = "/";
-            }
-        })
-        .catch(function (er) {
-            document.getElementById("waiting").style.display = "none";
-            document.getElementById("error").innerText = er.message;
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>

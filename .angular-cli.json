@@ -12,8 +12,8 @@
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "auth.html", "input": "./", "output": "./" },
-        { "glob": "silent-renew.html", "input": "./", "output": "./" }
-        
+        { "glob": "silent-renew.html", "input": "./", "output": "./" },
+        { "glob": "**/*.js", "input": "./scripts/", "output": "./"}        
       ],
       "index": "index.html",
       "main": "main.ts",
