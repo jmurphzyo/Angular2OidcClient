@@ -52,6 +52,7 @@ export class AuthService {
 
     this.mgr.events.addUserLoaded((user) => {
       this.currentUser = user;
+	  this.loggedIn = !(user === undefined);
       if (!environment.production) {
         console.log('authService addUserLoaded', user);
       }
@@ -120,15 +121,16 @@ export class AuthService {
   }
 
   startSignoutMainWindow() {
-    this.mgr.signoutRedirect().then(function (resp) {
-      console.log('signed out', resp);
-      setTimeout(5000, () => {
-        console.log('testing to see if fired...');
-
+    this.userManager.getUser().then(user => {
+      return this.userManager.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
+        console.log('signed out', resp);
+		setTimeout(5000, () => {
+          console.log('testing to see if fired...');
+        });
+      }).catch(function (err) {
+        console.log(err);
       });
-    }).catch(function (err) {
-      console.log(err);
-    });
+    });   
   };
 
   endSignoutMainWindow() {
@@ -212,7 +214,7 @@ export class AuthService {
     if (options) {
       options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
     } else {
-      options = new RequestOptions({ headers: this.authHeaders, body: '' });
+      options = new RequestOptions({ headers: this.authHeaders });
     }
 
     return options;
