@@ -121,8 +121,8 @@ export class AuthService {
   }
 
   startSignoutMainWindow() {
-    this.userManager.getUser().then(user => {
-      return this.userManager.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
+    this.mgr.getUser().then(user => {
+      return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
         console.log('signed out', resp);
 		setTimeout(5000, () => {
           console.log('testing to see if fired...');
